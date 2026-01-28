@@ -29,7 +29,7 @@ public class Chat extends BaseAuditingEntity {
     @JoinColumn(name="receiver_id")
     private User recipient;
 
-    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
     @OrderBy("createDate DESC ")
     private List<Message> messages;
 }
