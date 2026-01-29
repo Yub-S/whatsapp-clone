@@ -29,8 +29,6 @@ public class KeyCloakJwtAuthenticationConverter implements Converter<Jwt, Abstra
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
         var resourceAccess = new HashMap<>(jwt.getClaim("resource_access"));
 
-        // FIX: Choose the specific client name you set up in Keycloak (e.g., "whatsapp-clone")
-        // If 'account' is actually what you want, keep it, but usually it's your app name.
         var eternal = (Map<String, List<String>>) resourceAccess.get("account");
 
         if (eternal == null || !eternal.containsKey("roles")) {
