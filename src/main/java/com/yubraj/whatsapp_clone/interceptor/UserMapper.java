@@ -2,6 +2,7 @@ package com.yubraj.whatsapp_clone.interceptor;
 
 import com.yubraj.whatsapp_clone.user.User;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class UserMapper {
@@ -29,6 +30,8 @@ public class UserMapper {
         if (attributes.containsKey("email")){
             user.setEmail(attributes.get("email").toString());
         }
+
+        user.setLastSeen(LocalDateTime.now());
 
         return user;
     }
