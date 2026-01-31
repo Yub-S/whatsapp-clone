@@ -1,5 +1,8 @@
 package com.yubraj.whatsapp_clone.message;
 
+import com.yubraj.whatsapp_clone.NotificationService.Notification;
+import com.yubraj.whatsapp_clone.NotificationService.NotificationService;
+import com.yubraj.whatsapp_clone.NotificationService.NotificationType;
 import com.yubraj.whatsapp_clone.chat.Chat;
 import com.yubraj.whatsapp_clone.chat.ChatRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,11 +20,13 @@ public class MessageService {
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
     private final FileService fileService;
+    private final NotificationService notificationService;
 
-    public MessageService(ChatRepository chatRepository, MessageRepository messageRepository, FileService fileService) {
+    public MessageService(ChatRepository chatRepository, MessageRepository messageRepository, FileService fileService, NotificationService notificationService) {
         this.chatRepository = chatRepository;
         this.messageRepository = messageRepository;
         this.fileService = fileService;
+        this.notificationService = notificationService;
     }
 
     public void saveMessage(MessageRequest messageRequest){
@@ -39,6 +44,18 @@ public class MessageService {
        messageRepository.save(message);
 
        // todo notification
+        Notification notification = Notification.builder()
+                .chatId(chat.getId())
+                .messageType(messageRequest.getType())
+                .content(messageRequest.getContent())
+                .senderId(messageRequest.getSenderId())
+                .receiverId(messageRequest.getRecipientId())
+                .type(NotificationType.MESSAGE)
+                .build();
+
+        notificationService.sendNotification(message.getReceiverId(),notification);
+
+
 
 
     }
@@ -62,6 +79,15 @@ public class MessageService {
         messageRepository.setMessageStatus(MessageState.SEEN,chat.getId(),otherPerson);
 
         //todo notification
+
+        Notification notification = Notification.builder()
+                .chatId(chat.getId())
+                .senderId(getSenderId(chat,authentication))
+                .receiverId(otherPerson)
+                .type(NotificationType.SEEN)
+                .build();
+
+        notificationService.sendNotification(otherPerson,notification);
     }
 
     public void uploadMediaMessage(String chatId, MultipartFile file, Authentication authentication){
@@ -82,6 +108,17 @@ public class MessageService {
         message.setState(MessageState.SENT);
 
         // todo notification
+
+        Notification notification = Notification.builder()
+                .chatId(chat.getId())
+                .messageType(MessageType.IMAGE)
+                .senderId(senderId)
+                .receiverId(recipientId)
+                .type(NotificationType.IMAGE)
+                .media(FileUtils.readFileFromLocation(filePath))
+                .build();
+
+        notificationService.sendNotification(recipientId,notification);
 
     }
 
