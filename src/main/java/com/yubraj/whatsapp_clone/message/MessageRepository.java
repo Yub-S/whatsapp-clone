@@ -22,8 +22,8 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
     // setting message state to seen
     // modifying annotation -> usually hibernate thinks it's a select query
     @Modifying
-    @Query("update Message m set m.state = :state where m.id = :id")
-    void setMessageStatus(@Param("state") MessageState state, @Param("id") Long id);
+    @Query("update Message m set m.state = :state where m.chat.id =:chatId and m.senderId = :senderId")
+    void setMessageStatus(@Param("state") MessageState state,@Param("chatId") String chatId, @Param("senderId") String senderId);
     /* we can do this in service layer as well -> by fetching and then using setter and transactional annotation
     as the whole concept of orm is to work with objects and not write sql queries....
     -- however must prefer this in case of bulk operation and efficiency as we just need 1 db call*/

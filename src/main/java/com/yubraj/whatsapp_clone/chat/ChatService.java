@@ -3,7 +3,6 @@ package com.yubraj.whatsapp_clone.chat;
 import com.yubraj.whatsapp_clone.user.User;
 import com.yubraj.whatsapp_clone.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
