@@ -1,10 +1,12 @@
 package com.yubraj.whatsapp_clone.interceptor;
 
 import com.yubraj.whatsapp_clone.user.User;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@Component
 public class UserMapper {
 
     /* mapping user from keycloak to user in our database*/

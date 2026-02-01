@@ -35,10 +35,10 @@ public class UserSynchronizerFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         try {
-            if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-                JwtAuthenticationToken token = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+            if (SecurityContextHolder.getContext().getAuthentication() instanceof JwtAuthenticationToken jwtToken) {
+                //JwtAuthenticationToken token = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-                userSynchronizer.synchronizeWithIdp(token.getToken());
+                userSynchronizer.synchronizeWithIdp(jwtToken.getToken());
             }
         } finally{
             // passing on the request

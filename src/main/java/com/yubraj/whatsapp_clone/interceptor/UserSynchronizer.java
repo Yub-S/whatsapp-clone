@@ -5,10 +5,12 @@ import com.yubraj.whatsapp_clone.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
 
+@Component
 @RequiredArgsConstructor
 public class UserSynchronizer {
 

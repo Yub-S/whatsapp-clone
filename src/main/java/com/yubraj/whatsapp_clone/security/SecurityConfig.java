@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req->
                 {
                     // permit all of these
-                    req.requestMatchers("/v3/api-docs","/v3/api-docs/**","/swagger-resources",
+                    req.requestMatchers("/v2/api-docs","/v3/api-docs","/v3/api-docs/**","/swagger-resources",
                             "/swagger-resources/**","/configuration/ui","/configuration/security",
                             "/swagger-ui/**","/webjars/**","/swagger-ui.html","/ws/**").permitAll();
                     req.anyRequest().authenticated();
